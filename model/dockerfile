@@ -1,0 +1,12 @@
+FROM php:8.0-apache
+WORKDIR /var/www/html/model
+COPY . /var/www/html/model
+EXPOSE 80
+RUN a2enmod rewrite
+RUN sed -i 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.conf
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    libzip-dev \
+    unzip \
+    && docker-php-ext-install pdo_mysql
+CMD ["apache2-foreground"]

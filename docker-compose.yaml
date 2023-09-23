@@ -1,0 +1,25 @@
+version: '3'
+services: 
+ db:
+    image: mariadb:10.4.24
+    ports:
+      - "3306:3306"
+    container_name: db
+    volumes:
+      - ./db:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: university_model
+      MYSQL_USER: root2
+      MYSQL_PASSWORD: 123456
+ apache:
+    build: "./model"
+    ports:
+      - "80:80"
+    container_name: app
+    volumes:
+      - ./model:/var/www/html/model
+
+
